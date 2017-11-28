@@ -1,0 +1,19 @@
+{
+  "name": "syntery-explorer-d3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./phylo.js",
+  "scripts": {
+    "server": "node server.js",
+    "start": "open http://localhost:8080 && node server.js"
+  },
+  "keywords": [
+    "d3"
+  ],
+  "author": "YUTING HAN",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "fs": "0.0.1-security"
+  }
+}
