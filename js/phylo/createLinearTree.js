@@ -125,6 +125,8 @@ function creatLinearTree(life, info, baseSvg) {
         })
         .on("click", function(d) {
             if (selected == 0) {
+                d3.selectAll(".boarder").attr("opacity",0);
+                d3.select("#boarder" + d.data.name).attr("opacity",1);
                 disable_Parents = [];
                 var node = d;
                 while (node.parent !== null) {
@@ -148,6 +150,7 @@ function creatLinearTree(life, info, baseSvg) {
                 $("#speTwo").html("");
                 d3.selectAll('#miniTree svg').remove();
             } else if (selected == 1) {
+                d3.select("#boarder" + d.data.name).attr("opacity",1);
                 for(i = 0; i < disable_Parents.length; i++){
                     d3.select("#" + disable_Parents[i])
                     .attr("pointer-events", "all")
@@ -167,6 +170,12 @@ function creatLinearTree(life, info, baseSvg) {
                     createMiniTree(miniLife, info);
                 }
 
+                buttonAnimation();
+
+                function buttonAnimation(){
+                    d3.select(".button").transition()
+                    .duration(750).style("border", "4px solid blue").transition().duration(750).style("border", "4px solid white").on("end", buttonAnimation);
+                }
                 
             }
 
@@ -219,7 +228,30 @@ function creatLinearTree(life, info, baseSvg) {
             }
 
         });
-
+    
+    chart.selectAll('g.node')
+        .filter(function(d){
+            return sName[d.data.name] != "";
+        })
+        .append("circle")
+         .attr("class","boarder")
+        .attr("id",function(d){
+            return "boarder" + d.data.name;
+        })
+        .attr("cx", 40)
+        .attr("cy", 40)
+        .attr("stroke","#1E90FF")
+        .attr("stroke-width","5")
+        .attr("fill","none")
+        .attr("opacity",0)
+        .attr("r", function(d) {
+            if (sName[d.data.name] != "") {
+                return 40;
+            } else {
+                return 30;
+            }
+        })
+        
 
     chart.selectAll('g.node').append("svg:text")
         .attr("dx", 85)
@@ -243,17 +275,17 @@ function creatLinearTree(life, info, baseSvg) {
         });
         rootDists = d3.max(rootDist);
         d3.select('.xaxis').remove();
-       
+        
         timeLineScale = d3.scaleLinear()
             .domain([rootDists, 0])
             .rangeRound([0, w * scale2]).nice();
 
         xAxis = d3.axisBottom(timeLineScale);
-
+      
         d3.select(".timeLine").append("g")
             .attr("class", "xaxis")
             .attr("transform", function() {
-                if (frameTranslate !== null) {
+                if (frameTranslate !== null && dragTransform !== null) {
                     return "translate(" + (frameTranslate[0]+35) + "," + 20 + ")";
                 } else {
                     return "translate(35," + 20 + ")";

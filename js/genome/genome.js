@@ -1,8 +1,18 @@
 //get filename from previous page.
 var url = new URL(window.location.href),
-    p = url.searchParams.get("p"),
-    c1 = url.searchParams.get("c1"),
-    c2 = url.searchParams.get("c2");
+    p = getParameterByName("p"),
+    c1 = getParameterByName("c1"),
+    c2 = getParameterByName("c2");
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 var firstArray = localStorage.getItem("firstArray").split(","),
     secondArray = localStorage.getItem("secondArray").split(",");
@@ -716,7 +726,7 @@ function appendRow(num, data, layer, spe) {
 
 function circos(data, data2, childSpe, parentSpe) {
     d3.select("#tree")
-    .attr("transform", "translate(" + (margin.left + 20) + "," + (-50) + ")scale(1.2)");
+    .attr("transform", "translate(" + (margin.left) + "," + (-50) + ")scale(1.2)");
 
     var groupCounts = {};
     var translocations = [];
@@ -782,17 +792,13 @@ function circos(data, data2, childSpe, parentSpe) {
         path.push(d.color);
         translocations.push(path);
     })
-
-    var groups = Object.values(groupCounts);
-    //var dataConcat = data2.concat(data);
-    data.reverse();
-    if(parentSpe == "SIM"){
-        console.log(translocations);
-        console.log(groupCounts);
-        console.log(chr);
-    }
     
+    var groups = $.map(groupCounts,function(k,v){
+        return k;
+    });
 
+    data.reverse();
+    
     var translocationgraph = translocation()
     .data(chr)
     .padding(0.015)

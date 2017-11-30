@@ -32,9 +32,14 @@ function translocation() {
     for (var i = 0; i < keys.length; i++) {
       counts2[keys[i]] = 1 + (counts2[keys[i]] || 0);
     }
+    
 
-    var num1 = Object.values(counts2)[0]; //number of chromosomes in child
-    var num2 = Object.values(counts2)[1]; //number of chromosomes in parent
+    var c2 = $.map(counts2,function(k,v){
+        return k;
+    });
+
+    var num1 = c2[0]; //number of chromosomes in child
+    var num2 = c2[1]; //number of chromosomes in parent
 
 
 

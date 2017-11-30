@@ -60,8 +60,9 @@ d3.demo.canvas = function(life, info) {
             .attr("class", "svg canvas")
             .attr("id","canvas")
             .attr("preserveAspectRatio", "xMinYMid meet")
+            .attr("height", height)
+            .attr("height", width + 700)
             .attr("viewBox", "0 0 " + (width + 700) + " " + height);
-        //.classed("svg-content-responsive", true); 
 
         creatDefs(svg, info, 80, "big");
         creatDefs(svg, info, 60, "mini");
@@ -116,7 +117,6 @@ d3.demo.canvas = function(life, info) {
 
 
         miniBaseSvg.call(minimap);
-        //zoomHandler(1);
 
         /** ADD SHAPE **/
 
@@ -224,32 +224,57 @@ d3.demo.minimap = function(life, info, baseSvg) {
         frameY = 0;
 
     function minimap(selection) {
+        var drag = d3.drag() 
         var container = baseSvg.append("g")
             .attr("class", "minimap").call(zoom);
-
+        
         miniCanvas = baseSvg.append("g")
             .attr("class", "miniCanvas");
 
         zoom.on("zoom.minimap", zoomed);
+        drag.on("start.minimap",dragStart);
+        drag.on("drag.minimap",dragged);
+
         
         frame = container.append("g")
-            .attr("class", "frame")
+            .attr("class", "frame");
 
         frame.append("rect")
             .attr("class", "background")
             .style("stroke", "#ffffff")
-            .style("stroke-width", 5)
+            .attr("transform", "translate(100," + (-420) + ")")
+            .style("stroke-width", 8)
             .attr("width", w)
             .attr("height", h);
+        
+        function zoomed() {
+            frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
+            frameTranslate = [(-frameX * scale), (-frameY * scale)];
+            target.attr("transform", "translate(" + frameTranslate + ")scale(" + scale + ")");
+            
+            scale2 = scale
+            
+            if(timeLineScale !== undefined){
+                timeLineScale.rangeRound([0, w * scale2]);
+                xAxis = d3.axisBottom(timeLineScale);
 
-        var drag = d3.drag()
-            .on("start.minimap", function() {
-                var frameTranslate = d3.demo.util.getXYFromTranslate(frame.attr("transform"));
+                if(display == "linear"){
+                    d3.select(".timeLine")
+                        .attr("transform", "translate(" + frameTranslate[0] + "," + 0 + ")")
+                        .call(xAxis.ticks(5));
+                }
+            }
+        }
+        function dragStart(){
+        d3.event.sourceEvent.stopPropagation();
+
+            var frameTranslate = d3.demo.util.getXYFromTranslate(frame.attr("transform"));
                 frameX = frameTranslate[0];
                 frameY = frameTranslate[1];
-    
-            })
-            .on("drag.minimap", function() {
+       }
+
+       function dragged(){
+                
                 d3.event.sourceEvent.stopImmediatePropagation();
                 frameX += d3.event.dx;
                 frameY += d3.event.dy;
@@ -259,39 +284,20 @@ d3.demo.minimap = function(life, info, baseSvg) {
                 frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
                 var translate = [(-frameX * scale), (-frameY * scale)];
                 target.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-
-                if (display == "linear"){
-                d3.select(".timeLine")
-                    .attr("transform", "translate(" + translate[0] + "," + 0 + ")"); 
+                
+                if(timeLineScale !== undefined){
+                    d3.select(".timeLine")
+                        .attr("transform", "translate(" + translate[0] + "," + 0 + ")");
                 }
-                  
-            });
-
-        function zoomed() {
-
-            frame.attr("transform", "translate(" + frameX + "," + frameY + ")");
-            frameTranslate = [(-frameX * scale), (-frameY * scale)];
-            target.attr("transform", "translate(" + frameTranslate + ")scale(" + scale + ")");
-            scale2 = scale;
-            
-        
-            if(timeLineScale !== undefined){
-                timeLineScale.rangeRound([0, w * scale2]).nice();
-                xAxis = d3.axisBottom(timeLineScale);
-                if (display == "linear"){
-                d3.select(".timeLine")
-                    .attr("transform", "translate(" + frameTranslate[0] + "," + 0 + ")")
-                    .call(xAxis.ticks(5));
-                }
-            }
-            
-            
-
         }
 
+        frame.call(drag);
+
+        
         /** RENDER **/
         minimap.render = function() {
             container.attr("transform", "scale(" + minimapScale + ")");
+
             frame
                 .select(".background")
                 .attr("transform", "translate(100," + (-420) + ")")
@@ -299,15 +305,15 @@ d3.demo.minimap = function(life, info, baseSvg) {
                 .attr("height", height / scale * num);
 
         };
-
+    
         addMiniMap(life, info);
-        frame.call(drag);
+        
     }
-
 
     //============================================================
     // Accessors
     //============================================================
+    
 
     minimap.x = function(value) {
         if (!arguments.length) return x;

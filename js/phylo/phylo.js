@@ -5,7 +5,7 @@ var zoomValue, zoom;
 var selected = 0;
 var wiki= {}, sName = {};
 var display = "linear";
-var miniCanvas, rootDists, timeLineScale, xAxis, frameTranslate = null, scale2 = 1;
+var miniCanvas, rootDists, timeLineScale, xAxis, frameTranslate, dragTransform = null, scale2 = 1;
 var overview = "open";
 
 function uncheck() {
@@ -72,7 +72,14 @@ d3.queue()
         var chart = $(".canvas"),
             rect = document.getElementById("canvas").getBoundingClientRect(),
             aspect = rect.width/rect.height;
+
+        $(document).ready(function(){
+            console.log($(".canvas")[0]);
             console.log(aspect);
+        });
+            
+            
+
         $(window).on("resize", function() {
                 var targetHeight = $(window).height();
                 
