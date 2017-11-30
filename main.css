@@ -205,8 +205,6 @@
     stroke-width: 4px;
     fill: #F6F6F6;
     fill-opacity: 0;
-    fill: url(#minimapGradient_gmult);
-    filter: url(#minimapDropShadow_gmult);
     cursor: move;
 }
 
