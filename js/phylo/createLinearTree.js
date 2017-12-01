@@ -230,20 +230,6 @@ function creatLinearTree(life, info, baseSvg) {
     });
 
     chart.selectAll('g.node')
-    .append("circle")
-    .attr("class", "icons")
-    .attr("cx", 40)
-    .attr("cy", 40)
-    .attr("r", function(d) {
-        if (sName[d.data.name] != "") {
-            return 20;
-        } else {
-            return 15;
-        }
-    })
-    .attr("fill", "black");
-
-    chart.selectAll('g.node')
     .append("rect")
     .attr("width", function(d) {
         if (sName[d.data.name] != "") {
