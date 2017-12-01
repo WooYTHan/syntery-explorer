@@ -13,41 +13,40 @@
 </head>
 
 <body>
-<nav class="main-nav navbar-fixed-top" role="navigation">
+    <nav class="main-nav navbar-fixed-top" role="navigation">
         <h2 class="nav-brand"><a href="#">Synteny Explorer</h2></a>
         <ul id="main-menu" class="sm sm-clean">
-            <li><a href="#">View</a>
-                <ul>
-                    <li><a href="#">Genome View </a></li>
-                    <li><a href="#"> DNA View</a></li>
-                </ul>
-            </li>
             <li><a href="#"> Mode</a>
                 <ul>
+                    <li><a  id="morphthenslide" href="#">Morphthenslide</a>
+                        <ul>
+                            <li><a class="mode" id="forward" href="#">Forward</a></li>
+                            <li><a class="mode" id="backward" href="#">Backward</a></li>
+                        </ul>
+                    </li>
                     <li><a class="mode" id="static" href="#">Static</a></li>
-                    <li><a class="mode" id="morphthenslide" href="#">Morphthenslide</a></li>
                     <li><a class="mode" id="circos" href="#">Circos</a></li>
                 </ul>
             </li>
             <li><a href="#"> Help</a></li>
         </ul>
-</nav>
-<div class="padding"></div>
-<div id="chromosomes"></div>
+    </nav>
+    <div class="padding"></div>
+    <div id="chromosomes"></div>
     <div id="rightBar">
         <div class="topSelectBox" id="speOne">
-        <p> Click Icons to Select Species.</p>
+            <p> Click Icons to Select Species.</p>
         </div>
         <div class="SelectBox2" id="miniTree">
         </div>
         <div class="bottomSelectBox" id="speTwo">
-        <p id=""> Click Icons to Select Species.</p>
+            <p id=""> Click Icons to Select Species.</p>
         </div>
     </div>
 
-<div>
+    <div>
         <script src="js/jquery.js"></script>
-         <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="js/d3/d3.js"></script>
         <script src="js/genome/d3-multichord.js"></script>

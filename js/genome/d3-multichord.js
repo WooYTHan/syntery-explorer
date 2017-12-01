@@ -35,7 +35,7 @@ function translocation() {
     
 
     var c2 = $.map(counts2,function(k,v){
-        return k;
+      return k;
     });
 
     var num1 = c2[0]; //number of chromosomes in child
@@ -56,12 +56,12 @@ function translocation() {
 
     }
 
-  
+    
     // Convert the sum to scaling factor for [0, pi].
     var scale1 = d3.scaleLinear().range([0, Math.PI - 0.015 * num1]).domain([0, k1])
     var scale2 = d3.scaleLinear().range([0, Math.PI - 0.015 * num2]).domain([0, k2])
     
-  
+    
     //Compute the array of group objects:
     for(groupStartRad = 0, i = 0; i < groupCount; i++){
       
@@ -78,7 +78,7 @@ function translocation() {
       if(i < groupCount/2){
         groupEndRad = groupStartRad + scale1(groupsEarly[i]);
       }
-     if(i >= groupCount/2){
+      if(i >= groupCount/2){
         groupEndRad = groupStartRad + scale2(groupsEarly[i]);
 
       } //Add radial length of group
@@ -97,7 +97,7 @@ function translocation() {
 
     //Compute array of edges:
     for(var i = 0; i < edgeCount; i++) {
-    
+      
       sourceGrp = groups[edgesEarly[i][0]];
       targetGrp = groups[edgesEarly[i][2]];
       attributes = edgesEarly[i].length > 6 ? edgesEarly[i][6] : {};

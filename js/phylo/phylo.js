@@ -1,5 +1,5 @@
 var firstNode, secondNode, firstNodeName, secondNodeName,nodeName,str;
-var outerRadius, innerRadius = null
+var outerRadius = null, innerRadius = null
 var w = 1770, h = 1361;
 var zoomValue, zoom;
 var selected = 0;
@@ -8,12 +8,7 @@ var display = "linear";
 var miniCanvas, rootDists, timeLineScale, xAxis, frameTranslate, dragTransform = null, scale2 = 1;
 var overview = "open";
 
-function uncheck() {
-    // Uncheck all checkboxes on page load    
-    $(':checkbox:checked').prop('checked', false);
-}
 $(".button").hide(); 
-
 $(".button").click(function(){
   window.open("genome.html?" + str, 'genome view');
 });
@@ -23,70 +18,63 @@ $("#overview").click(function(){
     $(".contextTree").css("display","none");
     $("#overview").css("float","left");
     overview = "closed";
-  }else{
+}else{
     $(".contextTree").css("display","");
     $("#overview").css("float","right");
     overview = "open";
-  }
+}
 
-  
 });
 
+
 d3.queue()
-    .defer(d3.text, "treetime.txt")
-    .defer(d3.csv, "info.csv")
-    .await(function(error, life, info) {
+.defer(d3.text, "treetime.txt")
+.defer(d3.csv, "info.csv")
+.await(function(error, life, info) {
 
-        if (error) throw error;
-        info.forEach(function(d) {
-            var name = d.Id;
-            if(d.Wiki != ""){
-                wiki[name] = d.Wiki;
-            }
-            else{
-                wiki[name] = "Description not avaliable.";
-            }
+    if (error) throw error;
+    info.forEach(function(d) {
+        var name = d.Id;
+        if(d.Wiki != ""){
+            wiki[name] = d.Wiki;
+        }
+        else{
+            wiki[name] = "Description not avaliable.";
+        }
         
-            sName[name] = d.Name;
-        });
-
-        var canvas = d3.demo.canvas(life, info).width(w).height(h);
-        d3.select("#tree").call(canvas);
-        canvas.addLinearTree();
-        $("#radial").click(function() {
-            d3.selectAll('.panCanvas g').remove();
-            d3.selectAll('.miniCanvas g').remove();
-
-            canvas.addRadialTree();
-            display = "radial";
-            addMiniMap(life, info)
-        });
-        $("#linear").click(function() {
-            d3.selectAll('.panCanvas g').remove();
-            d3.selectAll('.miniCanvas g').remove();
-            canvas.addLinearTree();
-            display = "linear";
-            addMiniMap(life, info)
-        });
-
-        var chart = $(".canvas"),
-            rect = document.getElementById("canvas").getBoundingClientRect(),
-            aspect = rect.width/rect.height;
-
-        $(document).ready(function(){
-            console.log($(".canvas")[0]);
-            console.log(aspect);
-        });
-            
-            
-
-        $(window).on("resize", function() {
-                var targetHeight = $(window).height();
-                
-                chart.attr("width", Math.round(targetHeight * aspect));
-                chart.attr("height", targetHeight);
-        }).trigger("resize");
+        sName[name] = d.Name;
     });
+
+    var canvas = d3.demo.canvas(life, info).width(w).height(h);
+    d3.select("#tree").call(canvas);
+    canvas.addLinearTree();
+    $("#radial").click(function() {
+        d3.selectAll('.panCanvas g').remove();
+        d3.selectAll('.miniCanvas g').remove();
+
+        canvas.addRadialTree();
+        display = "radial";
+        addMiniMap(life, info)
+    });
+    $("#linear").click(function() {
+        d3.selectAll('.panCanvas g').remove();
+        d3.selectAll('.miniCanvas g').remove();
+        canvas.addLinearTree();
+        display = "linear";
+        addMiniMap(life, info)
+    });
+
+    var chart = $(".canvas"),
+    rect = document.getElementById("canvas").getBoundingClientRect(),
+    aspect = rect.width/rect.height;
+
+    $(window).on("resize", function() {
+        var targetHeight = $(window).height();
+        
+        chart.attr("width", Math.round(targetHeight * aspect));
+        chart.attr("height", targetHeight);
+    }).trigger("resize");
+});
 
 // Compute the maximum cumulative length of any node in the tree.
 function maxLength(d) {
@@ -110,12 +98,12 @@ function linkConstant(d) {
 // Like d3.svg.diagonal.radial, but with square corners.
 function linkStep(startAngle, startRadius, endAngle, endRadius) {
     var c0 = Math.cos(startAngle = (startAngle - 90) / 180 * Math.PI),
-        s0 = Math.sin(startAngle),
-        c1 = Math.cos(endAngle = (endAngle - 90) / 180 * Math.PI),
-        s1 = Math.sin(endAngle);
+    s0 = Math.sin(startAngle),
+    c1 = Math.cos(endAngle = (endAngle - 90) / 180 * Math.PI),
+    s1 = Math.sin(endAngle);
     return "M" + startRadius * c0 + "," + startRadius * s0 +
-        (endAngle === startAngle ? "" : "A" + startRadius + "," + startRadius + " 0 0 " + (endAngle > startAngle ? 1 : 0) + " " + startRadius * c1 + "," + startRadius * s1) +
-        "L" + endRadius * c1 + "," + endRadius * s1;
+    (endAngle === startAngle ? "" : "A" + startRadius + "," + startRadius + " 0 0 " + (endAngle > startAngle ? 1 : 0) + " " + startRadius * c1 + "," + startRadius * s1) +
+    "L" + endRadius * c1 + "," + endRadius * s1;
 }
 
 function getDiagonal() {
@@ -128,13 +116,13 @@ function getDiagonal() {
 
     function diagonal(diagonalPath, i) {
         var source = diagonalPath.source,
-            target = diagonalPath.target,
-            midpointX = (source.x + target.x) / 2,
-            midpointY = (source.y + target.y) / 2,
-            pathData = [source, {
-                x: target.x,
-                y: source.y
-            }, target];
+        target = diagonalPath.target,
+        midpointX = (source.x + target.x) / 2,
+        midpointY = (source.y + target.y) / 2,
+        pathData = [source, {
+            x: target.x,
+            y: source.y
+        }, target];
         pathData = pathData.map(projection);
         return path(pathData)
     }
@@ -172,8 +160,8 @@ function scaleBranchLengths(nodes, w) {
         return n.rootDist;
     });
     var yscale = d3.scaleLinear()
-        .domain([0, d3.max(rootDists)])
-        .range([0, w]);
+    .domain([0, d3.max(rootDists)])
+    .range([0, w]);
     visitPreOrder(nodes[0], function(node) {
         node.y = yscale(node.rootDist);
     })
@@ -182,11 +170,11 @@ function scaleBranchLengths(nodes, w) {
 function reset() {
     return d3.transition().duration(350).tween("zoom", function() {
         var iTranslate = d3.interpolate(zoom.translate(), translate),
-            iScale = d3.interpolate(zoom.scale(), scale);
+        iScale = d3.interpolate(zoom.scale(), scale);
         return function(t) {
             zoom
-                .scale(iScale(t))
-                .translate(iTranslate(t));
+            .scale(iScale(t))
+            .translate(iTranslate(t));
             zoomed();
         };
     });
@@ -194,7 +182,7 @@ function reset() {
 
 function project(x, y) {
     var angle = (x - 90) / 180 * Math.PI,
-        radius = y + 20;
+    radius = y + 20;
     return [radius * Math.cos(angle) - 30, radius * Math.sin(angle) - 25];
 }
 

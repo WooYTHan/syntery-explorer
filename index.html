@@ -13,62 +13,55 @@
 
 </head>
 
-<body onLoad="uncheck()">
-<div>
-<nav class="main-nav navbar-fixed-top" role="navigation">
-        <h2 class="nav-brand"><a href="#">Synteny Explorer</h2></a>
-        <ul id="main-menu" class="sm sm-clean">
-            <li><a href="#">View</a>
-                <ul>
-                    <li><a href="#">Genome View </a></li>
-                    <li><a href="#"> DNA View</a></li>
-                </ul>
-            </li>
-            <li><a href="#">Display</a>
-                <ul>
-                    <li><a href="#">Layout</a>
-                        <ul>
-                            <li><a href="#" id="radial">Radial</a></li>
-                            <li><a href="#" id="linear">Linear</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Zoom</a>
-                        <ul>
-                            <li>
-                                <input id="zoomValue" type="number" value="100" min="1" max="200" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />%
+<body>
+    <div>
+        <nav class="main-nav navbar-fixed-top" role="navigation">
+            <h2 class="nav-brand"><a href="#">Synteny Explorer</h2></a>
+            <ul id="main-menu" class="sm sm-clean">
+                <li><a href="#">Display</a>
+                    <ul>
+                        <li><a href="#">Layout</a>
+                            <ul>
+                                <li><a href="#" id="radial">Radial</a></li>
+                                <li><a href="#" id="linear">Linear</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Zoom</a>
+                            <ul>
+                                <li>
+                                    <input id="zoomValue" type="number" value="100" min="1" max="200" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />%
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Show</a>
+                            <ul>
+                                <li>
+                                    <a id="show_timeLine" href="#">Timeline </a> </li>
+                                    <li><a id="show_name" href="#">species names </a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
-                    <li><a href="#">Show</a>
-                        <ul>
-                            <li>
-                                <a href="#">Timeline <input type="checkbox" id="timeCheckBox" value="true"></a> </li>
-                            <li><a href="#">species names <input type="checkbox" id="nameCheckBox" value="true"></a></li>
-                            <li><a href="#">icons <input type="checkbox" id="iconCheckBox" value="true"></a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#"> Help</a></li>
                 </ul>
-            </li>
-            <li><a href="#"> Help</a></li>
-        </ul>
-</nav>
-    <div class="map" id="tree"></div>
-    <div id="leftBar">
-        <div id="overview">
-           <p id="overview-text">overview</p>
-        </div>
-        <div class="contextTree" id="contextTree">
-        </div>
-    </div>
-    <div id="rightBar">
-        <div class="topSelectBox" id="speOne">
-            <div class="innerBox">
+            </nav>
+            <div class="map" id="tree"></div>
+            <div id="leftBar">
+                <div id="overview">
+                   <p id="overview-text">overview</p>
+               </div>
+               <div class="contextTree" id="contextTree">
+               </div>
+           </div>
+           <div id="rightBar">
+            <div class="topSelectBox" id="speOne">
+                <div class="innerBox">
                  <p> Click Icons to Select Species.</p>
-            </div>
-        
-        </div>
-        <div class="SelectBox2" id="miniTree">
-        <button type="button" class="button" id="genome" >genome view</button>
+             </div>
+             
+         </div>
+         <div class="SelectBox2" id="miniTree">
+            <button type="button" class="button" id="genome" >genome view</button>
         </div>
         <div class="bottomSelectBox" id="speTwo">
             <div class="innerBox">

@@ -1,25 +1,25 @@
 function creatDefs(svg, info, size, name) {
     svg.selectAll("defs")
-        .data(info)
-        .enter()
-        .append("pattern")
-        .attr("id", function(d) {
-            return "svg" + d.Id + "_" + name;
-        })
-        .attr('patternUnits', 'userSpaceOnUse')
-        .attr("width", size)
-        .attr("height", size)
-        .append("image")
-        .attr("xlink:href", function(d) {
-            var url = "png/" + d.Id + "_sm.png";
-            if (!imageExists(url)) {
-                return "png/dummy.png";
-            } else {
-                return "png/" + d.Id + "_sm.png";
-            }
-        })
-        .attr("width", size)
-        .attr("height", size);
+    .data(info)
+    .enter()
+    .append("pattern")
+    .attr("id", function(d) {
+        return "svg" + d.Id + "_" + name;
+    })
+    .attr('patternUnits', 'userSpaceOnUse')
+    .attr("width", size)
+    .attr("height", size)
+    .append("image")
+    .attr("xlink:href", function(d) {
+        var url = "png/" + d.Id + "_sm.png";
+        if (!imageExists(url)) {
+            return "png/dummy.png";
+        } else {
+            return "png/" + d.Id + "_sm.png";
+        }
+    })
+    .attr("width", size)
+    .attr("height", size);
 
 }
 function imageExists(url) {
@@ -76,32 +76,41 @@ function buildMiniTree(firstNode, secondNode) {
     secondArray = sliceArray(secondArray, common[0]);
 
     for (i = 0; i < firstArray.length; i++) {
+        if(firstArray[i] != c1){
+            d3.select("#boarder" + firstArray[i]).attr("opacity",1);
+        }
         d3.selectAll("." + common[0] + "-" + firstArray[i])
         .transition().duration(500)
-            .style("stroke", "#1E90FF").style("stroke-width", "5");
+        .style("stroke", "#1E90FF").style("stroke-width", "5");
         for (j = firstArray.length - 1; j > 0; j--) {
             d3.selectAll("." + firstArray[i] + "-" + firstArray[j])
-                .transition().duration(500)
-                .style("stroke", "#1E90FF").style("stroke-width", "5");
+            .transition().duration(500)
+            .style("stroke", "#1E90FF").style("stroke-width", "5");
             d3.selectAll("." + firstArray[j] + "-" + firstArray[i])
-                .transition().duration(500)
-                .style("stroke", "#1E90FF").style("stroke-width", "5");
+            .transition().duration(500)
+            .style("stroke", "#1E90FF").style("stroke-width", "5");
         }
     }
     for (i = 0; i < secondArray.length; i++) {
+        if(secondArray[i] != c2){
+            d3.select("#boarder" + secondArray[i]).attr("opacity",1);
+        }
         d3.selectAll("." + common[0] + "-" + secondArray[i])
         .transition().duration(500)
-            .style("stroke", "#1E90FF").style("stroke-width", "5");
+        .style("stroke", "#1E90FF").style("stroke-width", "5");
         for (j = secondArray.length - 1; j > 0; j--) {
             d3.selectAll("." + secondArray[i] + "-" + secondArray[j])
-                .transition().duration(500)
-                .style("stroke", "#1E90FF").style("stroke-width", "5");
+            .transition().duration(500)
+            .style("stroke", "#1E90FF").style("stroke-width", "5");
             d3.selectAll("." + secondArray[j] + "-" + secondArray[i])
-                .transition().duration(500)
-                .style("stroke", "#1E90FF").style("stroke-width", "5");
+            .transition().duration(500)
+            .style("stroke", "#1E90FF").style("stroke-width", "5");
         }
     }
-    var parent = common[0] + "";
+
+    
+    var parent = common[0] + ""; 
+    d3.select("#boarder" + parent).attr("opacity",1);
     miniLife = "(" + ((firstArray[0] != null) ? (getSubTree(firstArray) + ",") : "") + ((secondArray[0] != null) ? getSubTree(secondArray) : "") + ")" + parent;
     localStorage.setItem("firstArray", firstArray);
     localStorage.setItem("secondArray",secondArray);
