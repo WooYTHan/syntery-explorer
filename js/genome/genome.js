@@ -244,17 +244,18 @@ queue.awaitAll(function(error, csvDataSets) {
             }
         }
 
+        for (a = 0; a <= data.length - 1; a++) {
+            data[a][0].sort(function(a, b) {
+                if (a.chr != b.chr) {
+                    return a.chr - b.chr;
+                } else {
+                    return a.start - b.start;
+                }
+            });
+        }
+
     }
 
-    for (a = 0; a <= data.length - 1; a++) {
-        data[a][0].sort(function(a, b) {
-            if (a.chr != b.chr) {
-                return a.chr - b.chr;
-            } else {
-                return a.start - b.start;
-            }
-        });
-    }
     info.forEach(function(d) {
         var name = d.Id;
         if(d.Wiki != ""){
@@ -284,10 +285,14 @@ queue.awaitAll(function(error, csvDataSets) {
         }
     }
 
-
     
-    $("#speOne").html("<div class=\"boxTitle\"><img src=png/" + c1 + "_sm.png style=\"width:60px;height:60px;\"><p class=\"textTitle\">" + sName[c1] + "</p><p class=\"textArea\">" + wiki[c1] + "</p><div>");
-    $("#speTwo").html("<div class=\"boxTitle\"><img src=png/" + c2 + "_sm.png style=\"width:60px;height:60px;\"><p class=\"textTitle\">" + sName[c2] + "</p><p class=\"textArea\">" + wiki[c2] + "</p><div>");
+    $("#speOne").html("<div class=\"boxTitle\"><img src=png/" + c1 + 
+        "_sm.png style=\"width:60px;height:60px;\"><p class=\"textTitle\">" + sName[c1] + 
+        "</p><p class=\"textArea\">" + wiki[c1] + "</p><div>");
+
+    $("#speTwo").html("<div class=\"boxTitle\"><img src=png/" + c2 + 
+        "_sm.png style=\"width:60px;height:60px;\"><p class=\"textTitle\">" + sName[c2] + 
+        "</p><p class=\"textArea\">" + wiki[c2] + "</p><div>");
     
     createMiniTree(localStorage.getItem("miniLife"), info);
     var minitree = d3.cluster().size([1300, 1550]);
@@ -295,7 +300,6 @@ queue.awaitAll(function(error, csvDataSets) {
     var root = d3.hierarchy(newick.parse(localStorage.getItem("miniLife")), function(d) {
         return d.branchset;
     });
-    //minitree.size([1300, 1800]);
     minitree(root);
 
     var marker = svg.append('svg:defs')
@@ -337,7 +341,8 @@ queue.awaitAll(function(error, csvDataSets) {
             rotation = 0;
             x1 = -10
         }
-        return "M" + (d.y - 60) + "," + d.x + "A" + dr + "," + dr + " 0 0," + (rotation) + " " + (d.parent.y + 100) + "," + (d.parent.x + x1);
+        return "M" + (d.y - 60) + "," + d.x + "A" + dr + "," + dr + 
+        " 0 0," + (rotation) + " " + (d.parent.y + 100) + "," + (d.parent.x + x1);
     })
     .attr("stroke", "#CACAC9")
     .attr("stroke-width", "35")
@@ -345,9 +350,13 @@ queue.awaitAll(function(error, csvDataSets) {
 
     linkAnimation();
     function linkAnimation() {
-        link.transition().duration(750).attr("stroke-width", "38").transition().duration(750).attr("stroke-width", "35").on("end", linkAnimation)
+        link.transition()
+        .duration(750)
+        .attr("stroke-width", "38")
+        .transition().duration(750)
+        .attr("stroke-width", "35")
+        .on("end", linkAnimation);
     }
-
 
     var node = svg.selectAll("g.node")
     .data(root.descendants().reverse())
@@ -372,18 +381,31 @@ queue.awaitAll(function(error, csvDataSets) {
             return "translate(" + (d.y - 15) + "," + (d.x - 40) + ")";
         }
     });
-    svg.selectAll('g.node').append("rect").attr("width", 100).attr("height", 100).attr("fill", function(d) {
+
+    svg.selectAll('g.node')
+    .append("rect")
+    .attr("width", 100)
+    .attr("height", 100)
+    .attr("fill", function(d) {
         return "url(#svg" + d.data.name + "_xbig)";
     });
-    svg.selectAll('g.node').append("text").attr("transform", function(d) {
+
+    svg.selectAll('g.node')
+    .append("text")
+    .attr("transform", function(d) {
         return "translate(" + 100 + "," + 65 + ")";
-    }).attr("text-anchor", "start").attr('font-family', 'Helvetica Neue, Helvetica, sans-serif').attr('font-size', '15px').attr('fill', 'white').text(function(d) {
+    }).attr("text-anchor", "start")
+    .attr('font-family', 'Helvetica Neue, Helvetica, sans-serif')
+    .attr('font-size', '15px')
+    .attr('fill', 'white')
+    .text(function(d) {
         if (sName[d.data.name] != "") {
             return sName[d.data.name];
         } else {
             return d.data.name;
         }
     });
+
     svg.selectAll('g.node').append("g").attr("class", function(d) {
         return d.data.name + "_chart chrChart";
     }).attr("id", function(d) {
@@ -400,7 +422,8 @@ queue.awaitAll(function(error, csvDataSets) {
       buildChr(data[b][0], childrens[b], parents[b]);
   }
   forward_pointer_event();
-
+  
+  console.log(data);
   var selectedBar = [];
   var selectedLink = [];
 
@@ -452,6 +475,7 @@ else if(mode == "circos"){
 
 
   $(document).on('click', '.bar', function() {
+
     var id = $(this).attr("id"),
     chr = id.split("_")[1];
     var spe = $(this).parent().parent().attr("class").split("_")[0];
@@ -496,7 +520,7 @@ else if(mode == "circos"){
             
             var childrenType = d3.select("." + childrens[pos] + "_chart").attr("id").split("_")[1];
 
-            if(childrenType != "children"){
+            if(childrenType != "children" || mode == "forward"){
                 d3.selectAll("." + childrens[pos] + "_chart g").remove();    
                 buildChr(data[pos][0], childrens[pos], current_spe);
                 d3.selectAll("." + childrens[pos] + "_chart").attr("id", childrens[pos] + "_children");  
@@ -517,6 +541,12 @@ else if(mode == "circos"){
                 morphthenslide();
             }
 
+            if(mode == "forward" && mode == "static"){ 
+                forward_pointer_event();
+            }else if(mode == "backward"){
+                backward_pointer_event();
+            }
+
             function static() {
                 var data2 = data[pos][1];
                 var chrData = data2.filter(function(d) {
@@ -527,7 +557,7 @@ else if(mode == "circos"){
 
             function morphthenslide() {
                 copy.attr("class", "clone");
-                copy.selectAll("rect").style("fill", function() {
+                copy.selectAll(".block").style("fill", function() {
                     var color = $(this).css("fill");
                     color = color.replace(/[^\d,]/g, '').split(',');
                     return LightenDarkenColor(color, 10);
@@ -613,18 +643,22 @@ $(".links_big").click(function() {
     function staticLink() {
         var data2 = data[index][1];
         createLinks(parent, child, data2)
+        forward_pointer_event();
     }
 
     function morphthenslideLink() {
+        d3.selectAll(".block_boarder").style("opacity", 0);
         d3.selectAll(".links_big").style("pointer-events", "none");
         if(mode == "backward"){
             var selection = d3.select("." + child + "_chart");
+            backward_pointer_event();
         }
         else if(mode == "forward"){
             var selection = d3.select("." + parent + "_chart");
+            forward_pointer_event();
         }
         
-        selection.selectAll(".bar rect").transition().duration(7000).attr("transform", function() {
+        selection.selectAll(".block").transition().duration(7000).attr("transform", function() {
             var matchDirection = $(this).attr('class').split(' ')[1].split('_')[4];
             var direction = $(this).attr('id').split('_')[4];
             var x1 = d3.select("#" + $(this).attr('class').split(' ')[1]).attr("transform");
@@ -658,7 +692,7 @@ $(".links_big").click(function() {
             var y = transform[1] - transform2[1];
             return "translate(" + x + "," + y + ")";
         }).on('end', function() {
-            selection.selectAll(".bar rect").attr("transform", function() {
+            selection.selectAll(".block").attr("transform", function() {
                 var matchDirection = $(this).attr('class').split(' ')[1].split('_')[4];
                 var direction = $(this).attr('id').split('_')[4];
                 var x1 = $(this).attr("original-transform");
@@ -683,6 +717,7 @@ $(".links_big").click(function() {
             });
 
             d3.selectAll(".links_big").style("pointer-events", "auto");
+            d3.selectAll(".block_boarder").style("opacity", 1);
         });
     }
 })
@@ -737,24 +772,47 @@ function buildChr(data, parentSpe, childSpe) {
         x.domain(temparray.map(function(d) {
             return d.key;
         }));
-        var layer = d3.select("." + parentSpe + "_chart").append("g").attr("class", parentSpe + "_" + childSpe + "_row" + row).selectAll(".row" + row).data(temparray).enter().append("g").attr("class", "row" + row + " " + "bar").attr("id", function(d) {
+
+        y = d3.scaleLinear().rangeRound([num, num + 140]);
+        y.domain([0, d3.max(data, function(d) {
+            return d.end;
+        })]).nice();
+
+        var layer = d3.select("." + parentSpe + "_chart")
+        .append("g")
+        .attr("class", parentSpe + "_" + childSpe + "_row" + row).selectAll(".row" + row).data(temparray).enter().append("g").attr("class", "row" + row + " " + "bar").attr("id", function(d) {
             return parentSpe + "_" + d.key + "_" + childSpe;
         });
-        appendRow(num, data, layer, parentSpe);
+        appendRow(num, temparray, data, layer, parentSpe);
         row++;
         num = y(cal_rowDis(temparray)) + 15;
     }
 }
 
-function appendRow(num, data, layer, spe) {
-    y = d3.scaleLinear().rangeRound([num, num + 140]);
-    y.domain([0, d3.max(data, function(d) {
-        return d.end;
-    })]).nice();
+function appendRow(num, temparray, data, layer, spe) {
+    var chr_data = {}
+    var data2 = temparray.map(function(d) {
+        return d.values;
+    });
+
+    for(var i = 0; i < data2.length; i++){
+        for(var j = 0; j < data2[i].length; j++){
+            var chr = data2[i][j].chr;
+            var end = data2[i][j].end;
+
+            if(chr_data[chr] === undefined){
+                chr_data[chr] = end;
+            }else if(end > chr_data[chr]){
+                chr_data[chr] = end;
+            }
+        }
+    }
+    
     var chromosomes = layer.selectAll("rect").data(function(d) {
         return d.values;
     }).enter().append("rect").attr("class", function(d) {
-        return d.name + "_" + d.chr + " " + d.matchName + "_" + d.matchChr + "_" + d.matchStart + "_" + d.matchEnd + "_" + d.matchDirection;
+        current_chr = d.chr;
+        return d.name + "_" + d.chr + " " + d.matchName + "_" + d.matchChr + "_" + d.matchStart + "_" + d.matchEnd + "_" + d.matchDirection + " block";
     }).attr("id", function(d) {
         return d.name + "_" + d.chr + "_" + d.start + "_" + d.end + "_" + d.direction;
     }).attr("transform", function(d) {
@@ -772,6 +830,17 @@ function appendRow(num, data, layer, spe) {
             return $("." + d.color).css("fill");
         }
     }).style("cursor", "pointer");
+
+
+    layer.append("rect")
+    .attr("class", "block_boarder")
+    .attr("transform", function(d) {
+        return "translate(" + x(d.key) + "," + y(0) + ") rotate(0)";
+    })
+    .attr("height", function(d) {
+        return y(chr_data[d.key]) - y(0);
+    }).attr("width", 23).style("stroke", "grey").style("fill","none")
+    
 
     layer.append("text").attr("id", function(d) {
         return spe + "_" + d.key + "_text";
@@ -974,6 +1043,7 @@ function circos(data, data2, childSpe, parentSpe) {
         };
     }
 }
+
 function forward_pointer_event(){
     d3.selectAll(".chrChart").selectAll("rect").style("pointer-events", "auto");
     if(p != c1){
@@ -988,6 +1058,7 @@ function backward_pointer_event(){
     d3.selectAll(".chrChart").selectAll("rect").style("pointer-events", "auto");
     d3.select("." + p + "_chart").selectAll("rect").style("pointer-events", "none");
 }
+
 function getTranslation(transform) {
     var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
     g.setAttributeNS(null, "transform", transform);

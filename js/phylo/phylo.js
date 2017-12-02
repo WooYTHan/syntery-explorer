@@ -70,9 +70,11 @@ d3.queue()
 
     $(window).on("resize", function() {
         var targetHeight = $(window).height();
+        var targetWidth = $(window).width();
         
-        chart.attr("width", Math.round(targetHeight * aspect));
+        chart.attr("width", targetHeight * aspect);
         chart.attr("height", targetHeight);
+        
     }).trigger("resize");
 });
 
