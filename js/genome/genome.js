@@ -177,7 +177,7 @@ queue.awaitAll(function(error, csvDataSets) {
             var colorData = data[a][0];
             var colorData2 = data[a - 1][1];
             var colorData3 = data[a - 1][0];
-            console.log(data);
+            
             for(var i = 0; i < data[a-1][1].length; i++) {
                 var d = data[a-1][1][i];
                 var filterColor = colorData.filter(function(el) {
@@ -423,7 +423,6 @@ queue.awaitAll(function(error, csvDataSets) {
   }
   forward_pointer_event();
   
-  console.log(data);
   var selectedBar = [];
   var selectedLink = [];
 
@@ -503,7 +502,7 @@ else if(mode == "circos"){
             var pos = index[i];
             buildChr(data[pos][1], current_spe, childrens[pos]);
         }
-        $("#" + id + "_" + childrens[pos]).parent().parent().attr("id", current_spe + "_parent");
+        $("." + current_spe + "_chart").attr("id", current_spe + "_parent");
     }
 
         //for static mode
@@ -587,7 +586,7 @@ else if(mode == "circos"){
                             rotate = 0;
                         }
                         return x1 + "translate(" + x + "," + y + ")rotate(" + rotate + " " + w / 2 + " " + h / 2 + ")";
-                    } else { //console.log(x);
+                    } else { 
                         return x1 + "translate(" + x + "," + y + ")";
                     }
                 }).on('end', function() {
@@ -685,7 +684,7 @@ $(".links_big").click(function() {
                     rotate = 0;
                 }
                 return x1 + "rotate(" + rotate + " " + w / 2 + " " + h / 2 + ")";
-                } else { //console.log(x);
+                } else { 
                     return x1;
                 }
             });
@@ -719,7 +718,7 @@ $(".links_big").click(function() {
                         rotate = 0;
                     }
                     return x1 + "rotate(" + rotate + " " + w / 2 + " " + h / 2 + ")";
-                    } else { //console.log(x);
+                    } else { 
                         return x1;
                     }
                 });
