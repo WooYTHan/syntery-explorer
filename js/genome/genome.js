@@ -608,10 +608,21 @@ $(".links_big").click(function() {
 
     d3.selectAll("." + parent + "_chart g").remove();
     buildChr(data[index][1], parent, child);
-    $("." + parent + "_chart").attr("id", parent + "_children");
+    if(mode == "backward"){
+    	$("." + parent + "_chart").attr("id", parent + "_parent");
+    }
+    else{
+    	$("." + parent + "_chart").attr("id", parent + "_children");
+    }
+    
     d3.selectAll("." + child + "_chart g").remove();
     buildChr(data[index][0], child, parent);
-
+    if(mode == "backward"){
+    	$("." + child + "_chart").attr("id", child + "_children");
+    }
+    else{
+    	$("." + child + "_chart").attr("id", child + "_parent");
+    }
 
     if (mode == "static") {
         var index2 = selectedLink.indexOf(parent + "_" + child);
