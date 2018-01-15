@@ -137,14 +137,14 @@ function creatLinearTree(life, info, baseSvg) {
     })
     .attr("transform", function(d) {
         if (d.children) {
-            return "translate(" + (d.y - 25) + "," + (d.x - 35) + ")";
+            return "translate(" + (d.y - 40) + "," + (d.x - 35) + ")";
         } else {
             return "translate(" + (d.y - 2) + "," + (d.x - 35) + ")";
         }
     })
     .attr("initial-transform", function(d) {
         if (d.children) {
-            return "translate(" + (d.y - 25) + "," + (d.x - 35) + ")";
+            return "translate(" + (d.y - 40) + "," + (d.x - 35) + ")";
         } else {
             return "translate(" + (d.y - 2) + "," + (d.x - 35) + ")";
         }
@@ -273,7 +273,14 @@ function creatLinearTree(life, info, baseSvg) {
 
 
     chart.selectAll('g.node').append("text")
-    .attr("dx", 85)
+    .attr("dx", function(d){
+        if(d.children){
+            return -120;
+        }
+        else{
+            return 85;
+        }
+    })
     .attr("dy", 40)
     .attr("text-anchor", "start")
     .attr("font-family", "Raleway', sans-serif")
