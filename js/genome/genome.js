@@ -58,7 +58,7 @@ height = 1050 - margin.top - margin.bottom;
 
 var svg = d3.select("#chromosomes")
 .append("svg")
-.attr("width", 1700 + margin.left + margin.right)
+.attr("width", 1800 + margin.left + margin.right)
 .attr("id", "chrSvg")
 .attr("height", 1400 + margin.top + margin.bottom)
 .attr("preserveAspectRatio", "xMinYMin meet")
@@ -295,7 +295,7 @@ queue.awaitAll(function(error, csvDataSets) {
         "</p><p class=\"textArea\">" + wiki[c2] + "</p><div>");
     
     createMiniTree(localStorage.getItem("miniLife"), info);
-    var minitree = d3.cluster().size([1300, 1550]);
+    var minitree = d3.cluster().size([1300, 1850]);
 
     var root = d3.hierarchy(newick.parse(localStorage.getItem("miniLife")), function(d) {
         return d.branchset;
