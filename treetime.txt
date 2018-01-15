@@ -1,46 +1,46 @@
 (((((((((((((((
-homSap	:	5								,
-panTro	:	5	):	3					,
-gorGor	:	8	):	6					,
-ponAbe	:	14	):	3					,
-nomLeu	:	17	):	8					,
-rheMac	:	25	):	20					,
-calJac	:	45	)SIM:	20					,
-tarSyr	:	65	):	12					,(
-otoGar	:	60							,
-micMur	:	60	):	17	):	8			,(
-cynVol	:	82							,
-tupBel	:	82	):	3	):	2			,((((
-musMus	:	16							,
-ratNor	:	16	):	53					,
-cavPor	:	69	):	9					,(
-dipOrd	:	73							,
-speTri	:	73	):	5	):	4			,(
-ochPri	:	80							,
-oryCun	:	80	):	2	):	5	)EUA:	8	,((((((
-canFam	:	54							,
-felCat	:	54	):	8					,
-manPen	:	62	):	11					,
-equCab	:	73	):	7					,(
-myoLuc	:	69							,
-pteVam	:	69	):	11	):	7			,((((
-turTru	:	45							,
-bosTau	:	45	) : 8					,(
-oviAri	:	7							,
-capHir	:	7	):  45	):	8			,
-susScr	:	61	):	12					,
-vicPac	:	73	):	14	):	4			,(
-eriEur	:	80							,
-sorAra	:	80	):	11	):	4	)BOR:	3	,((
-dasNov	:	65							,
-choHof	:	65	):	27					,((
-loxAfr	:	59							,
-proCap	:	59	):	16					,
-echTel	:	75	):	17	):	6	):	27	,(
-monDom	:	45							,
-macEug	:	45	):	80			):	50	,
-ornAna	:	175					):	135	,(((
-galGal	:	218							,
-taeGut	:	218	):	57					,
-droNov	:	275	):	23					,
-allMis	:	298	):	12	)EUT
+homSap	:	10								,
+panTro	:	10	)HUC:	3					,
+gorGor	:	11	):	6					,
+ponAbe	:	17	)GAP:	3					,
+nomLeu	:	20	):	8					,
+rheMac	:	28	)CAT:	20					,
+calJac	:	48	)SIM:	20					,
+tarSyr	:	68	):	12					,(
+otoGar	:	63							,
+micMur	:	63	):	17	):	8			,(
+cynVol	:	85							,
+tupBel	:	85	):	3	):	2			,((((
+musMus	:	19							,
+ratNor	:	19	):	53					,
+cavPor	:	72	):	9					,(
+dipOrd	:	75							,
+speTri	:	75	):	5	):	4			,(
+ochPri	:	83							,
+oryCun	:	83	):	2	):	5	)EUA:	8	,((((((
+canFam	:	57							,
+felCat	:	57	):	8					,
+manPen	:	65	):	11					,
+equCab	:	75	):	7					,(
+myoLuc	:	72							,
+pteVam	:	72	):	11	):	7			,((((
+turTru	:	48							,
+bosTau	:	48	) : 8					,(
+oviAri	:	10							,
+capHir	:	10	):  45	):	8			,
+susScr	:	64	):	12					,
+vicPac	:	75	):	14	):	4			,(
+eriEur	:	83							,
+sorAra	:	83	):	11	):	4	)BOR:	3	,((
+dasNov	:	68							,
+choHof	:	68	):	27					,((
+loxAfr	:	62							,
+proCap	:	62	):	16					,
+echTel	:	78	):	17	):	6	):	27	,(
+monDom	:	48							,
+macEug	:	48	):	80			):	50	,
+ornAna	:	178					):	135	,(((
+galGal	:	221							,
+taeGut	:	221	):	57					,
+droNov	:	278	):	23					,
+allMis	:	301	):	12	)EUT
